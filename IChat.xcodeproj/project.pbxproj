@@ -9,21 +9,29 @@
 /* Begin PBXBuildFile section */
 		16E0033128C9B7FB008C8B3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0033028C9B7FB008C8B3A /* AppDelegate.swift */; };
 		16E0033328C9B7FB008C8B3A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0033228C9B7FB008C8B3A /* SceneDelegate.swift */; };
-		16E0033528C9B7FB008C8B3A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0033428C9B7FB008C8B3A /* ViewController.swift */; };
-		16E0033828C9B7FB008C8B3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16E0033628C9B7FB008C8B3A /* Main.storyboard */; };
+		16E0033528C9B7FB008C8B3A /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0033428C9B7FB008C8B3A /* AuthViewController.swift */; };
 		16E0033A28C9B7FD008C8B3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16E0033928C9B7FD008C8B3A /* Assets.xcassets */; };
 		16E0033D28C9B7FD008C8B3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16E0033B28C9B7FD008C8B3A /* LaunchScreen.storyboard */; };
+		16E0034528C9C533008C8B3A /* UIButton + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0034428C9C533008C8B3A /* UIButton + Extension.swift */; };
+		16E0034728C9CA06008C8B3A /* UIFont + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0034628C9CA06008C8B3A /* UIFont + Extension.swift */; };
+		16E0034928C9CAF0008C8B3A /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0034828C9CAF0008C8B3A /* UIColor + Extension.swift */; };
+		16E0034B28C9CCDD008C8B3A /* Label + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0034A28C9CCDD008C8B3A /* Label + Extension.swift */; };
+		16E0034D28C9CEB4008C8B3A /* UIImageView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0034C28C9CEB4008C8B3A /* UIImageView + Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		16E0032D28C9B7FB008C8B3A /* IChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16E0033028C9B7FB008C8B3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		16E0033228C9B7FB008C8B3A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		16E0033428C9B7FB008C8B3A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		16E0033728C9B7FB008C8B3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		16E0033428C9B7FB008C8B3A /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		16E0033928C9B7FD008C8B3A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		16E0033C28C9B7FD008C8B3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		16E0033E28C9B7FD008C8B3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16E0034428C9C533008C8B3A /* UIButton + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton + Extension.swift"; sourceTree = "<group>"; };
+		16E0034628C9CA06008C8B3A /* UIFont + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + Extension.swift"; sourceTree = "<group>"; };
+		16E0034828C9CAF0008C8B3A /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
+		16E0034A28C9CCDD008C8B3A /* Label + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Label + Extension.swift"; sourceTree = "<group>"; };
+		16E0034C28C9CEB4008C8B3A /* UIImageView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView + Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,8 +66,12 @@
 			children = (
 				16E0033028C9B7FB008C8B3A /* AppDelegate.swift */,
 				16E0033228C9B7FB008C8B3A /* SceneDelegate.swift */,
-				16E0033428C9B7FB008C8B3A /* ViewController.swift */,
-				16E0033628C9B7FB008C8B3A /* Main.storyboard */,
+				16E0033428C9B7FB008C8B3A /* AuthViewController.swift */,
+				16E0034428C9C533008C8B3A /* UIButton + Extension.swift */,
+				16E0034628C9CA06008C8B3A /* UIFont + Extension.swift */,
+				16E0034828C9CAF0008C8B3A /* UIColor + Extension.swift */,
+				16E0034A28C9CCDD008C8B3A /* Label + Extension.swift */,
+				16E0034C28C9CEB4008C8B3A /* UIImageView + Extension.swift */,
 				16E0033928C9B7FD008C8B3A /* Assets.xcassets */,
 				16E0033B28C9B7FD008C8B3A /* LaunchScreen.storyboard */,
 				16E0033E28C9B7FD008C8B3A /* Info.plist */,
@@ -127,7 +139,6 @@
 			files = (
 				16E0033D28C9B7FD008C8B3A /* LaunchScreen.storyboard in Resources */,
 				16E0033A28C9B7FD008C8B3A /* Assets.xcassets in Resources */,
-				16E0033828C9B7FB008C8B3A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +149,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16E0033528C9B7FB008C8B3A /* ViewController.swift in Sources */,
+				16E0034728C9CA06008C8B3A /* UIFont + Extension.swift in Sources */,
+				16E0033528C9B7FB008C8B3A /* AuthViewController.swift in Sources */,
+				16E0034B28C9CCDD008C8B3A /* Label + Extension.swift in Sources */,
 				16E0033128C9B7FB008C8B3A /* AppDelegate.swift in Sources */,
+				16E0034D28C9CEB4008C8B3A /* UIImageView + Extension.swift in Sources */,
+				16E0034928C9CAF0008C8B3A /* UIColor + Extension.swift in Sources */,
 				16E0033328C9B7FB008C8B3A /* SceneDelegate.swift in Sources */,
+				16E0034528C9C533008C8B3A /* UIButton + Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		16E0033628C9B7FB008C8B3A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				16E0033728C9B7FB008C8B3A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		16E0033B28C9B7FD008C8B3A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -292,7 +300,6 @@
 				INFOPLIST_FILE = IChat/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -320,7 +327,6 @@
 				INFOPLIST_FILE = IChat/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
