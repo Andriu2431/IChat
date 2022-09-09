@@ -44,28 +44,26 @@ class SignUpViewController: UIViewController {
 extension SignUpViewController {
     
     private func setupConstraints() {
-        // лайбли разом з текст філдами
+        // stack view
         let emailStackView = UIStackView(arrangedSubviews: [emailLabel, emailTextFild], axis: .vertical, spacing: 0)
         let passwordStackView = UIStackView(arrangedSubviews: [passwordLabel, passwordTextFild], axis: .vertical, spacing: 0)
         let confirmPasswordStackView = UIStackView(arrangedSubviews: [confirmPasswordLabel, confirmPasswordTextFild], axis: .vertical, spacing: 0)
         
         signUpButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        // всі обєкти поміщаємо в один стек
         let stackView = UIStackView(arrangedSubviews: [
             emailStackView, passwordStackView, confirmPasswordStackView, signUpButton
         ], axis: .vertical, spacing: 40)
         
-        // нижні лейбл з кнопкою
         loginButton.contentHorizontalAlignment = .leading
         let bottomStackView = UIStackView(arrangedSubviews: [alreadyOnboardLabel, loginButton], axis: .horizontal, spacing: 10)
         bottomStackView.alignment = .firstBaseline
         
+        // translatesAutoresizingMaskIntoConstraints
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
         bottomStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        // додаємо на екран
+        // add view
         view.addSubview(welcomeLabel)
         view.addSubview(stackView)
         view.addSubview(bottomStackView)

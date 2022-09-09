@@ -36,17 +36,20 @@ extension AuthViewController {
     
     private func setupConstraints() {
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        
+        // castom view
         let googleView = ButtonFormView(label: googleLabel, button: googleButton)
         let emailView = ButtonFormView(label: emailLabel, button: emailButton)
         let loginView = ButtonFormView(label: alreadyOnboardLabel, button: loginButton)
         
+        // stack view
         let stackView = UIStackView(arrangedSubviews: [googleView, emailView, loginView], axis: .vertical, spacing: 40)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
+        // add view
         view.addSubview(logoImageView)
         view.addSubview(stackView)
         
+        // constraints
         logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 160).isActive = true
         logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         

@@ -48,29 +48,30 @@ extension LoginViewController {
     
     private func setupConstraints() {
         let loginWithView = ButtonFormView(label: loginWithLabel, button: googleButton)
+        
+        // stack view
         let emailStackView = UIStackView(arrangedSubviews: [emailLabel, emailTextFild],
                                          axis: .vertical, spacing: 0)
         let passwordStackView = UIStackView(arrangedSubviews: [passwordLabel, passwordTextFild],
                                             axis: .vertical, spacing: 0)
         
         loginButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        // голвний стек
         let stackView = UIStackView(arrangedSubviews: [
             loginWithView, orLabel, emailStackView, passwordStackView, loginButton
         ],
                                     axis: .vertical, spacing: 40)
         
         signInButton.contentHorizontalAlignment = .leading
-        // нижній стек
         let bottomStackView = UIStackView(arrangedSubviews: [needAnAccountLabel, signInButton],
                                           axis: .horizontal, spacing: 10)
         bottomStackView.alignment = .firstBaseline
         
+        // translatesAutoresizingMaskIntoConstraints
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
         bottomStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        // додаємо на екран
+        // add view
         view.addSubview(welcomeLabel)
         view.addSubview(stackView)
         view.addSubview(bottomStackView)
