@@ -23,6 +23,9 @@ class AuthViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // додаємо логотип гугл
+        googleButton.customizeGoogleButton()
+        
         view.backgroundColor = .white
         setupConstraints()
     }
