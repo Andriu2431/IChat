@@ -8,11 +8,11 @@
 import UIKit
 
 // це дані які будуть в одному item - це дані про чат в вкладці people
-struct MChat: Hashable {
-    var userName: String
-    var userImage: UIImage
-    var lastMassage: String
-    var id = UUID()
+struct MChat: Hashable, Decodable {
+    var username: String
+    var userImageString: String
+    var lastMessage: String
+    var id: Int
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -25,7 +25,7 @@ struct MChat: Hashable {
 
 // енум з секціями
 enum Section: Int, CaseIterable {
-    case activeChats
+    case  waitingChats, activeChats
 }
 
 // це екран коли юзер уже увійшов - екран де всі чати покзані
@@ -34,13 +34,10 @@ class ListViewController: UIViewController {
     var collectionView: UICollectionView!
     // dataSourse буде складатись з секції та інформації про item
     var dataSourse: UICollectionViewDiffableDataSource<Section, MChat>?
-    // відповідає за дані для dataSourse - чат в вкладці people
-    let activeChats: [MChat] = [
-        MChat(userName: "Alexey", userImage: UIImage(named: "human1")!, lastMassage: "How are you?"),
-        MChat(userName: "Bob", userImage: UIImage(named: "human2")!, lastMassage: "How are you?"),
-        MChat(userName: "Misha", userImage: UIImage(named: "human3")!, lastMassage: "How are you?"),
-        MChat(userName: "Mila", userImage: UIImage(named: "human4")!, lastMassage: "How are you?")
-    ]
+    // дані декодовані з файлу activeChats для активних чатів
+    let activeChats = Bundle.main.decode([MChat].self, from: "activeChats.json")
+    // дані декодовані з файлу waitingChats для неактивних чатів
+    let waitingChats = Bundle.main.decode([MChat].self, from: "waitingChats.json")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +70,25 @@ class ListViewController: UIViewController {
         view.addSubview(collectionView)
         
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellid")
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellid2")
     }
+    
+    // заповнює данними dataSourse
+    private func reloadData() {
+        // слідкує за змінами
+        var snapshot = NSDiffableDataSourceSnapshot<Section,MChat>()
+        // додаємо секцію
+        snapshot.appendSections([.waitingChats, .activeChats])
+        // передаємо дані в секії
+        snapshot.appendItems(waitingChats, toSection: .waitingChats)
+        snapshot.appendItems(activeChats, toSection: .activeChats)
+        // рейструємо snapshot
+        dataSourse?.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+// MARK: Data Sourse
+extension ListViewController {
     
     // створюємо DataSourse - по яким секціям вертаємо ті чи інші контейнери
     private func createDataSourse() {
@@ -84,45 +99,75 @@ class ListViewController: UIViewController {
             
             // в залежності від секції будемо повертати контейнер
             switch section {
-            case .activeChats:
+            case .activeChats: // активні чати
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellid", for: indexPath)
+                cell.backgroundColor = .systemYellow
+                return cell
+            case .waitingChats: // не активні чати
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellid2", for: indexPath)
                 cell.backgroundColor = .systemBlue
                 return cell
             }
         })
     }
+}
+
+// MARK: Setup layout
+extension ListViewController {
     
-    // заповнює данними
-    private func reloadData() {
-        // слідкує за змінами
-        var snapshot = NSDiffableDataSourceSnapshot<Section,MChat>()
-        // додаємо секцію
-        snapshot.appendSections([.activeChats])
-        // передаємо дані в секію
-        snapshot.appendItems(activeChats, toSection: .activeChats)
-        // рейструємо snapshot
-        dataSourse?.apply(snapshot, animatingDifferences: true)
-    }
-    
-    // настройка CompositionalLayout - секція чатів
+    // в залежності від секції будемо вертати відповідний layout
     private func createCompositionalLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnviroment) -> NSCollectionLayoutSection? in
-            // section -> groups -> items -> size
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                  heightDimension: .fractionalHeight(1))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            let gropSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                  heightDimension: .absolute(84))
-            let group = NSCollectionLayoutGroup.vertical(layoutSize: gropSize, subitems: [item])
-            // зробимо відступи
-            group.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 0, bottom: 8, trailing: 0)
+            guard let section = Section(rawValue: sectionIndex) else {
+                fatalError("Unknown section kind") }
             
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets.init(top: 16, leading: 20, bottom: 0, trailing: 20)
-            return section
+            switch section {
+            case .activeChats:
+                return self.createActiveChats()
+            case .waitingChats:
+                return self.createWaitingChats()
+            }
         }
         return layout
+    }
+    
+    // метод вертає NSCollectionLayoutSection для не активних чатів
+    private func createWaitingChats() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                              heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let gropSize = NSCollectionLayoutSize(widthDimension: .absolute(88),
+                                              heightDimension: .absolute(88))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: gropSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        // відстань між групами
+        section.interGroupSpacing = 20
+        section.contentInsets = NSDirectionalEdgeInsets.init(top: 16, leading: 20, bottom: 0, trailing: 20)
+        // як буде скролитись
+        section.orthogonalScrollingBehavior = .continuous
+        return section
+    }
+    
+    // метод вертає NSCollectionLayoutSection для активних чатів
+    private func createActiveChats() -> NSCollectionLayoutSection {
+        // section -> groups -> items -> size
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                              heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let gropSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                              heightDimension: .absolute(78))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: gropSize, subitems: [item])
+        // зробимо відступи
+        group.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 0, bottom: 8, trailing: 0)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 8
+        section.contentInsets = NSDirectionalEdgeInsets.init(top: 16, leading: 20, bottom: 0, trailing: 20)
+        return section
     }
 }
 
