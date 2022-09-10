@@ -69,7 +69,7 @@ class ListViewController: UIViewController {
         collectionView.backgroundColor = .mainWhite()
         view.addSubview(collectionView)
         
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellid")
+        collectionView.register(ActiveChatCell.self, forCellWithReuseIdentifier: ActiveChatCell.reuseId)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellid2")
     }
     
@@ -90,6 +90,15 @@ class ListViewController: UIViewController {
 // MARK: Data Sourse
 extension ListViewController {
     
+    //метод конфігує контейнер
+    private func configure<T: SelfConfiguringCell>(cellType: T.Type, with value: MChat, for indexPath: IndexPath) -> T {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseId, for: indexPath) as? T else { fatalError("Unable to dequeue \(cellType)") }
+        
+        // настроюємо контейнер
+        cell.configure(with: value)
+        return cell
+    }
+    
     // створюємо DataSourse - по яким секціям вертаємо ті чи інші контейнери
     private func createDataSourse() {
         dataSourse = UICollectionViewDiffableDataSource<Section,MChat>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, chat) -> UICollectionViewCell? in
@@ -100,9 +109,7 @@ extension ListViewController {
             // в залежності від секції будемо повертати контейнер
             switch section {
             case .activeChats: // активні чати
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellid", for: indexPath)
-                cell.backgroundColor = .systemYellow
-                return cell
+                return self.configure(cellType: ActiveChatCell.self, with: chat, for: indexPath)
             case .waitingChats: // не активні чати
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellid2", for: indexPath)
                 cell.backgroundColor = .systemBlue
@@ -161,11 +168,9 @@ extension ListViewController {
         let gropSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                               heightDimension: .absolute(78))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: gropSize, subitems: [item])
-        // зробимо відступи
-        group.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 0, bottom: 8, trailing: 0)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 8
+        section.interGroupSpacing = 10
         section.contentInsets = NSDirectionalEdgeInsets.init(top: 16, leading: 20, bottom: 0, trailing: 20)
         return section
     }
