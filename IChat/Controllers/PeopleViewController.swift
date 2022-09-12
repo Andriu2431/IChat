@@ -32,7 +32,7 @@ class PeopleViewController: UIViewController {
         setupSearchBar()
         setupCollectionView()
         createDataSourse()
-        reloadData()
+        reloadData(with: nil)
     }
     
     // настройка collectionView
@@ -64,13 +64,17 @@ class PeopleViewController: UIViewController {
     }
     
     // заповнює данними dataSourse
-    private func reloadData() {
+    private func reloadData(with searchText: String?) {
+        // фільтруємо по пошуку
+        let filtred = users.filter { (user) -> Bool in
+            user.contains(filter: searchText)
+        }
         // слідкує за змінами
         var snapshot = NSDiffableDataSourceSnapshot<Section,MUser>()
         // додаємо секцію
         snapshot.appendSections([.users])
         // передаємо дані в секії
-        snapshot.appendItems(users, toSection: .users)
+        snapshot.appendItems(filtred, toSection: .users)
         // рейструємо snapshot
         dataSourse?.apply(snapshot, animatingDifferences: true)
     }
@@ -161,7 +165,7 @@ extension PeopleViewController {
 extension PeopleViewController: UISearchBarDelegate {
     // коли ми вписуємо щось в searchController
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
+        reloadData(with: searchText)
     }
 }
 
