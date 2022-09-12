@@ -25,8 +25,8 @@ class MainTabBarController: UITabBarController {
         
         // тут будуть контролери для TabBar
         viewControllers = [
-            generateNavigationController(rootViewController: listViewController, title: "Conversations", image: convImage),
-            generateNavigationController(rootViewController: peopleViewController, title: "People", image: peopleImage)
+            generateNavigationController(rootViewController: peopleViewController, title: "People", image: peopleImage),
+            generateNavigationController(rootViewController: listViewController, title: "Conversations", image: convImage)
         ]
     }
     

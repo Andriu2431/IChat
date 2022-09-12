@@ -7,37 +7,6 @@
 
 import UIKit
 
-// це дані які будуть в одному item - це дані про чат в вкладці people
-struct MChat: Hashable, Decodable {
-    var username: String
-    var userImageString: String
-    var lastMessage: String
-    var id: Int
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    static func == (lhs: MChat, rhs: MChat) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
-// енум з секціями
-enum Section: Int, CaseIterable {
-    case  waitingChats, activeChats
-    
-    // в залежності від секції верне строку
-    func description() -> String {
-        switch self {
-        case .waitingChats:
-            return "Waiting chats"
-        case .activeChats:
-            return "Active chats"
-        }
-    }
-}
-
 // це екран коли юзер уже увійшов - екран де всі чати покзані
 class ListViewController: UIViewController {
     
@@ -48,6 +17,21 @@ class ListViewController: UIViewController {
     let activeChats = Bundle.main.decode([MChat].self, from: "activeChats.json")
     // дані декодовані з файлу waitingChats для неактивних чатів
     let waitingChats = Bundle.main.decode([MChat].self, from: "waitingChats.json")
+    
+    // енум з секціями
+    enum Section: Int, CaseIterable {
+        case  waitingChats, activeChats
+        
+        // в залежності від секції верне строку
+        func description() -> String {
+            switch self {
+            case .waitingChats:
+                return "Waiting chats"
+            case .activeChats:
+                return "Active chats"
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
