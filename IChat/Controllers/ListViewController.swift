@@ -89,15 +89,6 @@ class ListViewController: UIViewController {
 // MARK: Data Sourse
 extension ListViewController {
     
-    //метод конфігує контейнер
-    private func configure<T: SelfConfiguringCell>(cellType: T.Type, with value: MChat, for indexPath: IndexPath) -> T {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseId, for: indexPath) as? T else { fatalError("Unable to dequeue \(cellType)") }
-        
-        // настроюємо контейнер
-        cell.configure(with: value)
-        return cell
-    }
-    
     // створюємо DataSourse - по яким секціям вертаємо ті чи інші контейнери
     private func createDataSourse() {
         dataSourse = UICollectionViewDiffableDataSource<Section,MChat>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, chat) -> UICollectionViewCell? in
@@ -108,9 +99,9 @@ extension ListViewController {
             // в залежності від секції будемо повертати контейнер
             switch section {
             case .activeChats: // активні чати
-                return self.configure(cellType: ActiveChatCell.self, with: chat, for: indexPath)
+                return self.configure(collectionView: collectionView, cellType: ActiveChatCell.self, with: chat, for: indexPath)
             case .waitingChats: // не активні чати
-                return self.configure(cellType: WaitingChatCell.self, with: chat, for: indexPath)
+                return self.configure(collectionView: collectionView, cellType: WaitingChatCell.self, with: chat, for: indexPath)
             }
         })
         // налаштовуємо та повертаємо хедер

@@ -24,6 +24,8 @@
 		165B574228CF35E10057062A /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = 165B574128CF35E10057062A /* users.json */; };
 		165B574428CF36E60057062A /* MUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B574328CF36E60057062A /* MUser.swift */; };
 		165B574628CF36FB0057062A /* MChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B574528CF36FB0057062A /* MChat.swift */; };
+		165B574928CF48180057062A /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B574828CF48180057062A /* UserCell.swift */; };
+		165B574B28CF49680057062A /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B574A28CF49680057062A /* UIViewController + Extension.swift */; };
 		16C4DECA28CB0FF400269A4B /* ButtonFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DEC928CB0FF400269A4B /* ButtonFormView.swift */; };
 		16C4DECC28CB13EA00269A4B /* StackView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DECB28CB13EA00269A4B /* StackView + Extension.swift */; };
 		16C4DECE28CB177B00269A4B /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DECD28CB177B00269A4B /* SignUpViewController.swift */; };
@@ -59,6 +61,8 @@
 		165B574128CF35E10057062A /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
 		165B574328CF36E60057062A /* MUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUser.swift; sourceTree = "<group>"; };
 		165B574528CF36FB0057062A /* MChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MChat.swift; sourceTree = "<group>"; };
+		165B574828CF48180057062A /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		165B574A28CF49680057062A /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
 		16C4DEC928CB0FF400269A4B /* ButtonFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonFormView.swift; sourceTree = "<group>"; };
 		16C4DECB28CB13EA00269A4B /* StackView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StackView + Extension.swift"; sourceTree = "<group>"; };
 		16C4DECD28CB177B00269A4B /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +121,7 @@
 			children = (
 				165B573528CD11480057062A /* ActiveChatCell.swift */,
 				165B573928CF1D200057062A /* WaitingChatCell.swift */,
+				165B574828CF48180057062A /* UserCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -156,6 +161,7 @@
 				16E0034C28C9CEB4008C8B3A /* UIImageView + Extension.swift */,
 				16C4DECB28CB13EA00269A4B /* StackView + Extension.swift */,
 				165B572428CB95070057062A /* SegmentedControl + Extension.swift */,
+				165B574A28CF49680057062A /* UIViewController + Extension.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -302,6 +308,8 @@
 				16E0034D28C9CEB4008C8B3A /* UIImageView + Extension.swift in Sources */,
 				165B572528CB95070057062A /* SegmentedControl + Extension.swift in Sources */,
 				16E0034928C9CAF0008C8B3A /* UIColor + Extension.swift in Sources */,
+				165B574928CF48180057062A /* UserCell.swift in Sources */,
+				165B574B28CF49680057062A /* UIViewController + Extension.swift in Sources */,
 				165B573C28CF1DDA0057062A /* SelfConfiguringCell.swift in Sources */,
 				165B573A28CF1D200057062A /* WaitingChatCell.swift in Sources */,
 				16E0033328C9B7FB008C8B3A /* SceneDelegate.swift in Sources */,
