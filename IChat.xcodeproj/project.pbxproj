@@ -18,6 +18,9 @@
 		165B573328CCDF2A0057062A /* Bundle-Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B573228CCDF2A0057062A /* Bundle-Decodable.swift */; };
 		165B573628CD11480057062A /* ActiveChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B573528CD11480057062A /* ActiveChatCell.swift */; };
 		165B573828CDE3C00057062A /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B573728CDE3C00057062A /* GradientView.swift */; };
+		165B573A28CF1D200057062A /* WaitingChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B573928CF1D200057062A /* WaitingChatCell.swift */; };
+		165B573C28CF1DDA0057062A /* SelfConfiguringCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B573B28CF1DDA0057062A /* SelfConfiguringCell.swift */; };
+		165B573F28CF20700057062A /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B573E28CF20700057062A /* SectionHeader.swift */; };
 		16C4DECA28CB0FF400269A4B /* ButtonFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DEC928CB0FF400269A4B /* ButtonFormView.swift */; };
 		16C4DECC28CB13EA00269A4B /* StackView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DECB28CB13EA00269A4B /* StackView + Extension.swift */; };
 		16C4DECE28CB177B00269A4B /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DECD28CB177B00269A4B /* SignUpViewController.swift */; };
@@ -47,6 +50,9 @@
 		165B573228CCDF2A0057062A /* Bundle-Decodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle-Decodable.swift"; sourceTree = "<group>"; };
 		165B573528CD11480057062A /* ActiveChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveChatCell.swift; sourceTree = "<group>"; };
 		165B573728CDE3C00057062A /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		165B573928CF1D200057062A /* WaitingChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingChatCell.swift; sourceTree = "<group>"; };
+		165B573B28CF1DDA0057062A /* SelfConfiguringCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfConfiguringCell.swift; sourceTree = "<group>"; };
+		165B573E28CF20700057062A /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		16C4DEC928CB0FF400269A4B /* ButtonFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonFormView.swift; sourceTree = "<group>"; };
 		16C4DECB28CB13EA00269A4B /* StackView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StackView + Extension.swift"; sourceTree = "<group>"; };
 		16C4DECD28CB177B00269A4B /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -91,10 +97,11 @@
 		165B572728CC99A80057062A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				165B573428CD11350057062A /* Cell */,
 				165B572A28CC9A1D0057062A /* MainTabBarController.swift */,
 				165B572828CC99C00057062A /* ListViewController.swift */,
+				165B573E28CF20700057062A /* SectionHeader.swift */,
 				165B572C28CC9AAD0057062A /* PeopleViewController.swift */,
+				165B573428CD11350057062A /* Cell */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -103,8 +110,17 @@
 			isa = PBXGroup;
 			children = (
 				165B573528CD11480057062A /* ActiveChatCell.swift */,
+				165B573928CF1D200057062A /* WaitingChatCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		165B573D28CF1DFB0057062A /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				165B573B28CF1DDA0057062A /* SelfConfiguringCell.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		16C4DEC628CB0EA400269A4B /* UIKit */ = {
@@ -159,6 +175,7 @@
 				16E0033228C9B7FB008C8B3A /* SceneDelegate.swift */,
 				165B572628CC99540057062A /* SignIn&Auth */,
 				165B572728CC99A80057062A /* Controllers */,
+				165B573D28CF1DFB0057062A /* Protocols */,
 				16C4DEC828CB0EC700269A4B /* Extensions */,
 				16E0033928C9B7FD008C8B3A /* Assets.xcassets */,
 				16E0033B28C9B7FD008C8B3A /* LaunchScreen.storyboard */,
@@ -241,6 +258,7 @@
 			files = (
 				16C4DED028CB2DC800269A4B /* OneLineTextField.swift in Sources */,
 				16C4DECE28CB177B00269A4B /* SignUpViewController.swift in Sources */,
+				165B573F28CF20700057062A /* SectionHeader.swift in Sources */,
 				165B573828CDE3C00057062A /* GradientView.swift in Sources */,
 				165B572B28CC9A1D0057062A /* MainTabBarController.swift in Sources */,
 				16E0034728C9CA06008C8B3A /* UIFont + Extension.swift in Sources */,
@@ -256,6 +274,8 @@
 				16E0034D28C9CEB4008C8B3A /* UIImageView + Extension.swift in Sources */,
 				165B572528CB95070057062A /* SegmentedControl + Extension.swift in Sources */,
 				16E0034928C9CAF0008C8B3A /* UIColor + Extension.swift in Sources */,
+				165B573C28CF1DDA0057062A /* SelfConfiguringCell.swift in Sources */,
+				165B573A28CF1D200057062A /* WaitingChatCell.swift in Sources */,
 				16E0033328C9B7FB008C8B3A /* SceneDelegate.swift in Sources */,
 				16E0034528C9C533008C8B3A /* UIButton + Extension.swift in Sources */,
 				165B572928CC99C00057062A /* ListViewController.swift in Sources */,

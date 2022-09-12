@@ -26,6 +26,16 @@ struct MChat: Hashable, Decodable {
 // енум з секціями
 enum Section: Int, CaseIterable {
     case  waitingChats, activeChats
+    
+    // в залежності від секції верне строку
+    func description() -> String {
+        switch self {
+        case .waitingChats:
+            return "Waiting chats"
+        case .activeChats:
+            return "Active chats"
+        }
+    }
 }
 
 // це екран коли юзер уже увійшов - екран де всі чати покзані
@@ -69,8 +79,13 @@ class ListViewController: UIViewController {
         collectionView.backgroundColor = .mainWhite()
         view.addSubview(collectionView)
         
+        // рейструємо клас нашої секції - рейструємо хедер
+        collectionView.register(SectionHeader.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: SectionHeader.reuseId)
+        
         collectionView.register(ActiveChatCell.self, forCellWithReuseIdentifier: ActiveChatCell.reuseId)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellid2")
+        collectionView.register(WaitingChatCell.self, forCellWithReuseIdentifier: WaitingChatCell.reuseId)
     }
     
     // заповнює данними dataSourse
@@ -111,11 +126,21 @@ extension ListViewController {
             case .activeChats: // активні чати
                 return self.configure(cellType: ActiveChatCell.self, with: chat, for: indexPath)
             case .waitingChats: // не активні чати
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellid2", for: indexPath)
-                cell.backgroundColor = .systemBlue
-                return cell
+                return self.configure(cellType: WaitingChatCell.self, with: chat, for: indexPath)
             }
         })
+        // налаштовуємо та повертаємо хедер
+        dataSourse?.supplementaryViewProvider = { collectionView, kind, indexPath in
+            // рейструємо хедер
+            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SectionHeader.reuseId, for: indexPath) as? SectionHeader else { fatalError("Can not create new section header") }
+            // отримаємо секцію
+            guard let section = Section(rawValue: indexPath.section) else { fatalError("Unknow section kind") }
+            // заповнюємо даними хедер
+            sectionHeader.configurate(text: section.description(),
+                                      font: .laoSangamMN20(),
+                                      textColor: UIColor(red:0.57, green:0.57, blue:0.57, alpha:1.0))
+            return sectionHeader
+        }
     }
 }
 
@@ -136,6 +161,10 @@ extension ListViewController {
                 return self.createWaitingChats()
             }
         }
+        // робимо відстань між секціями
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 20
+        layout.configuration = config
         return layout
     }
     
@@ -155,6 +184,11 @@ extension ListViewController {
         section.contentInsets = NSDirectionalEdgeInsets.init(top: 16, leading: 20, bottom: 0, trailing: 20)
         // як буде скролитись
         section.orthogonalScrollingBehavior = .continuous
+        
+        // створюємо хедер
+        let sectionHeader = createSectionHeader()
+        // вставляємо його в масив хедерів
+        section.boundarySupplementaryItems = [sectionHeader]
         return section
     }
     
@@ -172,7 +206,23 @@ extension ListViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 10
         section.contentInsets = NSDirectionalEdgeInsets.init(top: 16, leading: 20, bottom: 0, trailing: 20)
+        
+        // створюємо хедер
+        let sectionHeader = createSectionHeader()
+        // вставляємо його в масив хедерів
+        section.boundarySupplementaryItems = [sectionHeader]
         return section
+    }
+    
+    // метод створює хедер
+    private func createSectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
+        // розімр хедера
+        let sectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
+        // створюємо його зверху
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: sectionHeaderSize,
+                                                                        elementKind: UICollectionView.elementKindSectionHeader,
+                                                                        alignment: .top)
+        return sectionHeader
     }
 }
 

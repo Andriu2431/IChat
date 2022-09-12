@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol SelfConfiguringCell {
-    static var reuseId: String { get }
-    func configure(with value: MChat)
-}
-
 // контейнер активних чатів
 class ActiveChatCell: UICollectionViewCell, SelfConfiguringCell {
     static var reuseId: String = "ActiveChatCell"
@@ -47,6 +42,7 @@ class ActiveChatCell: UICollectionViewCell, SelfConfiguringCell {
 extension ActiveChatCell {
     // констрейни
     private func setupConstraints() {
+        // translatesAutoresizingMaskIntoConstraints
         friendImageView.translatesAutoresizingMaskIntoConstraints = false
         gradientView.translatesAutoresizingMaskIntoConstraints = false
         friendName.translatesAutoresizingMaskIntoConstraints = false
@@ -55,11 +51,13 @@ extension ActiveChatCell {
         friendImageView.backgroundColor = .systemYellow
         gradientView.backgroundColor = .orange
         
+        // add view
         addSubview(friendImageView)
         addSubview(gradientView)
         addSubview(friendName)
         addSubview(lastMassege)
     
+        // constraints
         NSLayoutConstraint.activate([
             friendImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             friendImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
