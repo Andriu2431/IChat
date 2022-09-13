@@ -21,6 +21,11 @@ class AuthViewController: UIViewController {
     let emailButton = UIButton(title: "Email", titleColor: .white, backgroundColor: .buttonDark())
     let loginButton = UIButton(title: "Login", titleColor: .buttonRed(), backgroundColor: .white, isShadow: true)
 
+    // контролер рейстрації
+    let signUpVC = SignUpViewController()
+    // контроллер входу в апп
+    let loginVC = LoginViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // додаємо логотип гугл
@@ -28,6 +33,21 @@ class AuthViewController: UIViewController {
         
         view.backgroundColor = .white
         setupConstraints()
+        
+        emailButton.addTarget(self, action: #selector(emailButtonTapped), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+    }
+    
+    // emailButton target
+    @objc private func emailButtonTapped() {
+        // переходимо на контроллер рейстрації
+        present(signUpVC, animated: true, completion: nil)
+    }
+    
+    // loginButton target
+    @objc private func loginButtonTapped() {
+        // переходимо на контроллер входу
+        present(loginVC, animated: true, completion: nil)
     }
 }
 

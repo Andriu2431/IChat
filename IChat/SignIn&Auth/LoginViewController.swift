@@ -40,6 +40,21 @@ class LoginViewController: UIViewController {
         
         view.backgroundColor = .white
         setupConstraints()
+        
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+    }
+    
+    // loginButton target
+    @objc private func loginButtonTapped() {
+        // викликємо метод який перевіряє чи користувач зарейстрований
+        AuthService.shared.login(email: emailTextFild.text!, password: passwordTextFild.text!) { result in
+            switch result {
+            case .success(let user):
+                self.showAlert(with: "Успішно!", and: "Ви авторезовані!")
+            case .failure(let error):
+                self.showAlert(with: "Помилка!", and: error.localizedDescription)
+            }
+        }
     }
 }
 
@@ -83,13 +98,13 @@ extension LoginViewController {
         ])
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 100),
+            stackView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 80),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
         ])
         
         NSLayoutConstraint.activate([
-            bottomStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 60),
+            bottomStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 40),
             bottomStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             bottomStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
         ])

@@ -1,0 +1,42 @@
+//
+//  AuthService.swift
+//  IChat
+//
+//  Created by Andrii Malyk on 13.09.2022.
+//
+
+import UIKit
+import Firebase
+import FirebaseAnalytics
+
+// рейстрація та вхід користувача
+class AuthService {
+    
+    static let shared = AuthService()
+    
+    private let auth = Auth.auth()
+    
+    // вхід
+    func login(email: String?, password: String?, completion: @escaping (Result<User, Error>) -> Void) {
+        // метод логінить користувача
+        auth.signIn(withEmail: email!, password: password!) { result, error in
+            guard let result = result else {
+                completion(.failure(error!))
+                return 
+            }
+            completion(.success(result.user))
+        }
+    }
+    
+    // рейстрація
+    func register(email: String?, password: String?, confirmPassword: String?, completion: @escaping (Result<User, Error>) -> Void) {
+        // метод створює користувача
+        auth.createUser(withEmail: email!, password: password!) { result, error in
+            guard let result = result else {
+                completion(.failure(error!))
+                return
+            }
+            completion(.success(result.user))
+        }
+    }
+}
