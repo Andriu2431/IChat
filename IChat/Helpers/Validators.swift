@@ -23,6 +23,19 @@ class Validators {
         return true
     }
     
+    // перевіряємо чи заповнені всі поля для відпраки даних в Firestore
+    static func isFilled(username: String?, description: String?, sex: String?) -> Bool {
+        guard let description = description,
+              let sex = sex,
+              let username = username,
+              description != "",
+              sex != "",
+              username != "" else {
+            return false
+        }
+        return true
+    }
+    
     // перевіримо email на валідність - це стандартний метод з нету
     static func isSimpleEmail(_ email: String) -> Bool {
         let emailRegEx = "^.+@.+\\..{2,}$"

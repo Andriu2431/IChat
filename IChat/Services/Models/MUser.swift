@@ -10,8 +10,22 @@ import UIKit
 // це дані які будуть в одному item - це дані про юзера в вкладці people
 struct MUser: Hashable, Decodable {
     var username: String
+    var email: String
     var avatarStringURL: String
-    var id: Int
+    var description: String
+    var sex: String
+    var id: String
+    
+    // перетворюємо дані в тип [String: Any]
+    var representation: [String: Any] {
+        var rep = ["username": username]
+        rep["email"] = email
+        rep["avatarStringURL"] = avatarStringURL
+        rep["description"] = description
+        rep["sex"] = sex
+        rep["uid"] = id
+        return rep
+    }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SetupProfileViewController: UIViewController {
+    
+    let fullImageView = AddPhotoView()
     
     // Label
     let welcomeLabel = UILabel(text: "Set up profile!", font: .avenir26())
@@ -18,17 +21,47 @@ class SetupProfileViewController: UIViewController {
     // TextFild
     let fullNameTextFild = OneLineTextField(font: .avenir20())
     let aboutMeTextFild = OneLineTextField(font: .avenir20())
+    let sexSegmentedControl = UISegmentedControl(firs: "Mail", second: "Femail")
     
     // Button
     let goToChatsButton = UIButton(title: "Go to chats!", titleColor: .white, backgroundColor: .buttonDark(), cornerRadius: 4)
     
-    let fullImageView = AddPhotoView()
-    let sexSegmentedControl = UISegmentedControl(firs: "Mail", second: "Femail")
-    
+    // дані про юзера
+    private let currentUser: User
+
+    init(currentUser: User) {
+        self.currentUser = currentUser
+        super.init(nibName: nil, bundle: nil)
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupConstraints()
+        
+        goToChatsButton.addTarget(self, action: #selector(goToChatsButtonTapped), for: .touchUpInside)
+    }
+    
+    // відправка даних про користувача в Firestore - отримання результату та перехід на mainTabBarVC
+    @objc private func goToChatsButtonTapped() {
+        FirestoreService.shared.saveProfileWith(id: currentUser.uid,
+                                                email: currentUser.email!,
+                                                username: fullNameTextFild.text,
+                                                avatarImageString: "nil",
+                                                description: aboutMeTextFild.text,
+                                                sex: sexSegmentedControl.titleForSegment(at: sexSegmentedControl.selectedSegmentIndex)) { result in
+            switch result {
+            case .success(let muser):
+                self.showAlert(with: "Success!", and: "Good communication!")
+                print(muser)
+            case .failure(let error):
+                self.showAlert(with: "Error!", and: error.localizedDescription)
+            }
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -87,7 +120,7 @@ struct SetupProfileVCProvider: PreviewProvider {
     
     struct ContainerView: UIViewControllerRepresentable {
         
-        let viewController = SetupProfileViewController()
+        let viewController = SetupProfileViewController(currentUser: Auth.auth().currentUser!)
         
         func makeUIViewController(context: Context) -> some UIViewController {
             return viewController

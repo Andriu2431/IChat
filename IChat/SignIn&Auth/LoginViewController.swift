@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol AuthNavigationDelegate: AnyObject {
-    func toLoginVC()
-    func toSignUpVC()
-}
-
 // екран входу в програму
 class LoginViewController: UIViewController {
     
