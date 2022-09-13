@@ -49,10 +49,10 @@ class SignUpViewController: UIViewController {
                                     confirmPassword: confirmPasswordTextFild.text) { result in
             switch result {
             case .success(let user):
-                self.showAlert(with: "Успішно!", and: "Ви зарейстровані!")
+                self.showAlert(with: "Success!", and: "You are registered!")
                 print(user.email)
             case .failure(let error):
-                self.showAlert(with: "Помилка!", and: error.localizedDescription)
+                self.showAlert(with: "Error!", and: error.localizedDescription)
             }
         }
     }

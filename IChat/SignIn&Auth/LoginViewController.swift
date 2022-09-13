@@ -50,9 +50,9 @@ class LoginViewController: UIViewController {
         AuthService.shared.login(email: emailTextFild.text!, password: passwordTextFild.text!) { result in
             switch result {
             case .success(let user):
-                self.showAlert(with: "Успішно!", and: "Ви авторезовані!")
+                self.showAlert(with: "Success!", and: "You are authorized!")
             case .failure(let error):
-                self.showAlert(with: "Помилка!", and: error.localizedDescription)
+                self.showAlert(with: "Error!", and: error.localizedDescription)
             }
         }
     }
@@ -98,13 +98,13 @@ extension LoginViewController {
         ])
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 80),
+            stackView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 100),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
         ])
         
         NSLayoutConstraint.activate([
-            bottomStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 40),
+            bottomStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
             bottomStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             bottomStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
         ])

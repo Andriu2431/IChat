@@ -32,6 +32,9 @@
 		165B575328CF87830057062A /* ChatRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B575228CF87830057062A /* ChatRequestViewController.swift */; };
 		165B575528D060E60057062A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 165B575428D060E60057062A /* GoogleService-Info.plist */; };
 		165B575828D06CFD0057062A /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B575728D06CFD0057062A /* AuthService.swift */; };
+		165B575A28D07EF30057062A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 165B575928D07EF30057062A /* .gitignore */; };
+		165B575C28D081A80057062A /* Validators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B575B28D081A80057062A /* Validators.swift */; };
+		165B575E28D0842A0057062A /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B575D28D0842A0057062A /* AuthError.swift */; };
 		16C4DECA28CB0FF400269A4B /* ButtonFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DEC928CB0FF400269A4B /* ButtonFormView.swift */; };
 		16C4DECC28CB13EA00269A4B /* StackView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DECB28CB13EA00269A4B /* StackView + Extension.swift */; };
 		16C4DECE28CB177B00269A4B /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DECD28CB177B00269A4B /* SignUpViewController.swift */; };
@@ -76,6 +79,9 @@
 		165B575228CF87830057062A /* ChatRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRequestViewController.swift; sourceTree = "<group>"; };
 		165B575428D060E60057062A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		165B575728D06CFD0057062A /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		165B575928D07EF30057062A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		165B575B28D081A80057062A /* Validators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validators.swift; sourceTree = "<group>"; };
+		165B575D28D0842A0057062A /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		16C4DEC928CB0FF400269A4B /* ButtonFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonFormView.swift; sourceTree = "<group>"; };
 		16C4DECB28CB13EA00269A4B /* StackView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StackView + Extension.swift"; sourceTree = "<group>"; };
 		16C4DECD28CB177B00269A4B /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -179,6 +185,15 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		165B575F28D08EEC0057062A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				165B575B28D081A80057062A /* Validators.swift */,
+				165B575D28D0842A0057062A /* AuthError.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		16C4DEC628CB0EA400269A4B /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,6 +245,7 @@
 		16E0032F28C9B7FB008C8B3A /* IChat */ = {
 			isa = PBXGroup;
 			children = (
+				165B575928D07EF30057062A /* .gitignore */,
 				16E0033028C9B7FB008C8B3A /* AppDelegate.swift */,
 				16E0033228C9B7FB008C8B3A /* SceneDelegate.swift */,
 				165B575628D06CCD0057062A /* Services */,
@@ -237,6 +253,7 @@
 				165B572628CC99540057062A /* SignIn&Auth */,
 				165B573D28CF1DFB0057062A /* Protocols */,
 				16C4DEC828CB0EC700269A4B /* Extensions */,
+				165B575F28D08EEC0057062A /* Helpers */,
 				165B572F28CCDF1F0057062A /* activeChats.json */,
 				165B572E28CCDF1F0057062A /* waitingChats.json */,
 				165B574128CF35E10057062A /* users.json */,
@@ -326,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				165B574228CF35E10057062A /* users.json in Resources */,
+				165B575A28D07EF30057062A /* .gitignore in Resources */,
 				165B573028CCDF1F0057062A /* waitingChats.json in Resources */,
 				16E0033D28C9B7FD008C8B3A /* LaunchScreen.storyboard in Resources */,
 				16E0033A28C9B7FD008C8B3A /* Assets.xcassets in Resources */,
@@ -384,6 +402,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				165B574628CF36FB0057062A /* MChat.swift in Sources */,
+				165B575E28D0842A0057062A /* AuthError.swift in Sources */,
 				16C4DED028CB2DC800269A4B /* OneLineTextField.swift in Sources */,
 				16C4DECE28CB177B00269A4B /* SignUpViewController.swift in Sources */,
 				165B573F28CF20700057062A /* SectionHeader.swift in Sources */,
@@ -391,6 +410,7 @@
 				165B572B28CC9A1D0057062A /* MainTabBarController.swift in Sources */,
 				16E0034728C9CA06008C8B3A /* UIFont + Extension.swift in Sources */,
 				165B574428CF36E60057062A /* MUser.swift in Sources */,
+				165B575C28D081A80057062A /* Validators.swift in Sources */,
 				165B573628CD11480057062A /* ActiveChatCell.swift in Sources */,
 				16E0033528C9B7FB008C8B3A /* AuthViewController.swift in Sources */,
 				165B574F28CF7CCE0057062A /* InsertableTextField.swift in Sources */,
