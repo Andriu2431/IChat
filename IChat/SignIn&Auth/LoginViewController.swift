@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol AuthNavigationDelegate: AnyObject {
+    func toLoginVC()
+    func toSignUpVC()
+}
+
 // екран входу в програму
 class LoginViewController: UIViewController {
     
@@ -21,13 +26,16 @@ class LoginViewController: UIViewController {
     // Button
     let googleButton = UIButton(title: "Google", titleColor: .black, backgroundColor: .white, isShadow: true)
     let loginButton = UIButton(title: "Login", titleColor: .white, backgroundColor: .buttonDark())
-    let signInButton: UIButton = {
+    let signUpButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("SignIn", for: .normal)
+        button.setTitle("SignUp", for: .normal)
         button.setTitleColor(.buttonRed(), for: .normal)
         button.titleLabel?.font = .avenir20()
         return button
     }()
+    
+    // delegate
+    weak var delegate: AuthNavigationDelegate?
     
     // TextFild
     let emailTextFild = OneLineTextField(font: .avenir20())
@@ -42,18 +50,28 @@ class LoginViewController: UIViewController {
         setupConstraints()
         
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
-    // loginButton target
+    // авторизація користувача
     @objc private func loginButtonTapped() {
         // викликємо метод який перевіряє чи користувач зарейстрований
         AuthService.shared.login(email: emailTextFild.text!, password: passwordTextFild.text!) { result in
             switch result {
-            case .success(let user):
+            case .success(_):
                 self.showAlert(with: "Success!", and: "You are authorized!")
             case .failure(let error):
                 self.showAlert(with: "Error!", and: error.localizedDescription)
             }
+        }
+    }
+    
+    // перехід на singUpVC
+    @objc private func signUpButtonTapped() {
+        // закриваємо контроллер на якому ми находимось
+        self.dismiss(animated: true) {
+            // як тільки закриється контроллер login відкриваємо signUp
+            self.delegate?.toSignUpVC()
         }
     }
 }
@@ -76,8 +94,8 @@ extension LoginViewController {
         ],
                                     axis: .vertical, spacing: 40)
         
-        signInButton.contentHorizontalAlignment = .leading
-        let bottomStackView = UIStackView(arrangedSubviews: [needAnAccountLabel, signInButton],
+        signUpButton.contentHorizontalAlignment = .leading
+        let bottomStackView = UIStackView(arrangedSubviews: [needAnAccountLabel, signUpButton],
                                           axis: .horizontal, spacing: 10)
         bottomStackView.alignment = .firstBaseline
         

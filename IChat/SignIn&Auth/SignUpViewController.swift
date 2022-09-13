@@ -32,6 +32,8 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
+    // delegate
+    weak var delegate: AuthNavigationDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,21 +41,33 @@ class SignUpViewController: UIViewController {
         setupConstraints()
         
         signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     }
     
-    // signUpButton target
+    // рейстрація користувача
     @objc private func signUpButtonTapped() {
         // метод рейструє користувача
         AuthService.shared.register(email: emailTextFild.text,
                                     password: passwordTextFild.text,
                                     confirmPassword: confirmPasswordTextFild.text) { result in
             switch result {
-            case .success(let user):
-                self.showAlert(with: "Success!", and: "You are registered!")
-                print(user.email)
+            case .success(_):
+                self.showAlert(with: "Success!", and: "You are registered!") {
+                    // після того як користувач натисне в алерті ок то спрацьовує present
+                    self.present(SetupProfileViewController(), animated: true, completion: nil)
+                }
             case .failure(let error):
                 self.showAlert(with: "Error!", and: error.localizedDescription)
             }
+        }
+    }
+    
+    // перехід на loginVC
+    @objc private func loginButtonTapped() {
+        // закриваємо контроллер на якому ми находимось
+        self.dismiss(animated: true) {
+            // як тільки закриється контроллер signUp відкриваємо login
+            self.delegate?.toLoginVC()
         }
     }
 }
@@ -134,9 +148,11 @@ struct SignUpVCProvider: PreviewProvider {
 
 extension UIViewController {
     
-    func showAlert(with title: String, and massage: String) {
+    func showAlert(with title: String, and massage: String, completion: @escaping () -> Void = { }) {
         let alertController = UIAlertController(title: title, message: massage, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            completion()
+        }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }

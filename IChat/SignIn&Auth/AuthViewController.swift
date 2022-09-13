@@ -36,15 +36,18 @@ class AuthViewController: UIViewController {
         
         emailButton.addTarget(self, action: #selector(emailButtonTapped), for: .touchUpInside)
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        
+        signUpVC.delegate = self
+        loginVC.delegate = self
     }
     
-    // emailButton target
+    // рейстрація через email
     @objc private func emailButtonTapped() {
         // переходимо на контроллер рейстрації
         present(signUpVC, animated: true, completion: nil)
     }
     
-    // loginButton target
+    // авторизація 
     @objc private func loginButtonTapped() {
         // переходимо на контроллер входу
         present(loginVC, animated: true, completion: nil)
@@ -76,6 +79,21 @@ extension AuthViewController {
         stackView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 160).isActive = true
         stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
         stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
+    }
+}
+
+// MARK: AuthNavigationDelegate
+
+extension AuthViewController: AuthNavigationDelegate {
+    
+    func toLoginVC() {
+        // коли хтось дьоргає цей метод то відкриється loginVC
+        present(loginVC, animated: true, completion: nil)
+    }
+    
+    func toSignUpVC() {
+        // коли хтось дьоргає цей метод то відкриється signUpVC
+        present(signUpVC, animated: true, completion: nil)
     }
 }
 
