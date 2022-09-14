@@ -21,7 +21,6 @@ class ProfileViewController: UIViewController {
         
         constomizeElements()
         setupConstraints()
-        
     }
     
     private func constomizeElements() {

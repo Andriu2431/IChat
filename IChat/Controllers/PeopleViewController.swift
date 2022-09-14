@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 // контроллер де будуть всі користувачі - розписано в ListViewController
 class PeopleViewController: UIViewController {
     
     // дані декодовані з файлу activeChats для активних чатів
-    let users = Bundle.main.decode([MUser].self, from: "users.json")
+//    let users = Bundle.main.decode([MUser].self, from: "users.json")
+    let users = [MUser]()
     var collectionView: UICollectionView!
     var dataSourse: UICollectionViewDiffableDataSource<Section, MUser>!
     
@@ -33,6 +35,24 @@ class PeopleViewController: UIViewController {
         setupCollectionView()
         createDataSourse()
         reloadData(with: nil)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(signOut))
+    }
+    
+    // вихід з акаунта
+    @objc private func signOut() {
+        let alertController = UIAlertController(title: nil, message: "Are you sure you want to sign out?", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alertController.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { _ in
+            do {
+                // пробуємо вийти з акаунта
+                try Auth.auth().signOut()
+                UIApplication.shared.keyWindow?.rootViewController = AuthViewController()
+            } catch {
+                print("Error sing out: \(error.localizedDescription)")
+            }
+        }))
+        present(alertController, animated: true, completion: nil)
     }
     
     // настройка collectionView

@@ -53,8 +53,19 @@ class LoginViewController: UIViewController {
         // викликємо метод який перевіряє чи користувач зарейстрований
         AuthService.shared.login(email: emailTextFild.text!, password: passwordTextFild.text!) { result in
             switch result {
-            case .success(_):
-                self.showAlert(with: "Success!", and: "You are authorized!")
+            case .success(let user):
+                self.showAlert(with: "Success!", and: "You are authorized!") {
+                    // перевіримо чи користувач заповнив всі дані
+                    FirestoreService.shared.getUserData(user: user) { result in
+                        switch result {
+                        case .success(let muser):
+                            // якщо користувач заповнив всі дані то відкриємо йому MainTabBarController
+                            self.present(MainTabBarController(), animated: true, completion: nil)
+                        case .failure(let error):
+                            self.present(SetupProfileViewController(currentUser: user), animated: true, completion: nil)
+                        }
+                    }
+                }
             case .failure(let error):
                 self.showAlert(with: "Error!", and: error.localizedDescription)
             }

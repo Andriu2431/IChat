@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -16,9 +17,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = AuthViewController()
-        window?.makeKeyAndVisible()
+        window?.backgroundColor = .mainWhite()
         
+        // перевіримо чи є зарейстрований user
+        if let user = Auth.auth().currentUser {
+            // перевіримо чи є в user вся зарейстрована інформація в Firestore через метод який ми створили самі
+            FirestoreService.shared.getUserData(user: user) { result in
+                switch result {
+                case .success(let muser): // є вся інформація
+                    self.window?.rootViewController = MainTabBarController()
+                case .failure(let error): // немає всієї інформації
+                    // якщо він пройшов не до кінця, то вертаємо екран рейстрації
+                    self.window?.rootViewController = AuthViewController()
+                }
+            }
+        } else {
+            // якщо немає
+            window?.rootViewController = AuthViewController()
+        }
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
