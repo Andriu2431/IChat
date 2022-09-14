@@ -48,7 +48,7 @@ class LoginViewController: UIViewController {
         
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
-        googleButton.addTarget(self, action: #selector(googleSignInButton), for: .touchUpInside)
+        googleButton.addTarget(self, action: #selector(googleLoginButtonTapped), for: .touchUpInside)
     }
     
     // авторизація користувача
@@ -87,52 +87,31 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @objc private func googleSignInButton() {
-        self.createRequestRegisterUserFromGoogle()
-    }
-}
-
-// MARK: google login
-extension LoginViewController {
-    // запит рейстрації юзера через гугл
-    private func createRequestRegisterUserFromGoogle() {
-        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        
-        // Create Google Sign In configuration object.
-        let config = GIDConfiguration(clientID: clientID)
-        
-        // Start the sign in flow!
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { user, error in
-            
-            if let error = error {
-                self.showAlert(with: "Error!", and: error.localizedDescription)
-                return
-            }
-            
-            // пробуємо зарейтсрувати користувача, обробляємо відаовіді від сервера
-            AuthService.shared.googleLogin(user: user) { result in
-                switch result {
-                case .success(let user):
-                    // перевіримо чи користувач заповнив всі дані
-                    FirestoreService.shared.getUserData(user: user) { result in
-                        switch result {
-                        case .success(let muser):
-                            self.showAlert(with: "Success!", and: "Good communication!") {
-                                let mainTabBar = MainTabBarController(currentUser: muser)
-                                // робимо його на повний екран
-                                mainTabBar.modalPresentationStyle = .fullScreen
-                                self.present(mainTabBar, animated: true, completion: nil)
-                            }
-                        case .failure(_):
-                            self.showAlert(with: "Success!", and: "You are registered!") {
-                                // після того як користувач натисне в алерті ок то спрацьовує present
-                                self.present(SetupProfileViewController(currentUser: user), animated: true, completion: nil)
-                            }
+    // авторизація через гугл
+    @objc private func googleLoginButtonTapped() {
+        // пробуємо зарейтсрувати користувача, обробляємо відаовіді від сервера
+        AuthService.shared.googleLogin() { result in
+            switch result {
+            case .success(let user):
+                // перевіримо чи користувач заповнив всі дані
+                FirestoreService.shared.getUserData(user: user) { result in
+                    switch result {
+                    case .success(let muser):
+                        self.showAlert(with: "Success!", and: "Good communication!") {
+                            let mainTabBar = MainTabBarController(currentUser: muser)
+                            // робимо його на повний екран
+                            mainTabBar.modalPresentationStyle = .fullScreen
+                            self.present(mainTabBar, animated: true, completion: nil)
+                        }
+                    case .failure(_):
+                        self.showAlert(with: "Success!", and: "You are registered!") {
+                            // після того як користувач натисне в алерті ок то спрацьовує present
+                            self.present(SetupProfileViewController(currentUser: user), animated: true, completion: nil)
                         }
                     }
-                case .failure(let error):
-                    self.showAlert(with: "Error!", and: error.localizedDescription)
                 }
+            case .failure(let error):
+                self.showAlert(with: "Error!", and: error.localizedDescription)
             }
         }
     }

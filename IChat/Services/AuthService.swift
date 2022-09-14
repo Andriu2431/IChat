@@ -36,15 +36,26 @@ class AuthService {
         }
     }
     
-    // кнопка рейстрації через гугл
-    func googleLogin(user: GIDGoogleUser!, completion: @escaping (Result<User, Error>) -> Void) {
-
-            guard let authentication = user?.authentication, let idToken = authentication.idToken else { return }
+    // рейстрація через гугл
+    func googleLogin(completion: @escaping (Result<User, Error>) -> Void) {
+        
+        guard let clientID = FirebaseApp.app()?.options.clientID,
+              let vc = UIApplication.getTopViewController() else { return }
+        // Create Google Sign In configuration object.
+        let config = GIDConfiguration(clientID: clientID)
+        
+        // Start the sign in flow!
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: vc) { user, error in
             
+            if let error = error {
+                vc.showAlert(with: "Error!", and: error.localizedDescription)
+                return
+            }
+            
+            guard let authentication = user?.authentication, let idToken = authentication.idToken else { return }
             let credential = GoogleAuthProvider.credential(withIDToken: idToken,
                                                            accessToken: authentication.accessToken)
             
-            // рейструємо юзера в Firebase
             Auth.auth().signIn(with: credential) { result, error in
                 guard let result = result else {
                     completion(.failure(error!))
@@ -53,6 +64,7 @@ class AuthService {
                 completion(.success(result.user))
             }
         }
+    }
     
     // рейстрація
     func register(email: String?, password: String?, confirmPassword: String?, completion: @escaping (Result<User, Error>) -> Void) {
