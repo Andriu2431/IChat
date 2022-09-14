@@ -7,13 +7,18 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 // контроллер де будуть всі користувачі - розписано в ListViewController
 class PeopleViewController: UIViewController {
     
     // дані декодовані з файлу activeChats для активних чатів
 //    let users = Bundle.main.decode([MUser].self, from: "users.json")
-    let users = [MUser]()
+    // масив юзерів
+    var users = [MUser]()
+    // наглядач за змінами в firebase
+    private var usersListener: ListenerRegistration?
+
     var collectionView: UICollectionView!
     var dataSourse: UICollectionViewDiffableDataSource<Section, MUser>!
     
@@ -35,20 +40,36 @@ class PeopleViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         title = currentUser.username
     }
-    
+
+    deinit {
+        // видаляємо наглядача
+        usersListener?.remove()
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+    
         setupSearchBar()
         setupCollectionView()
         createDataSourse()
-        reloadData(with: nil)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(signOut))
+
+        // в наглядача передаємо юзерів яких вже маємо, отримуємо відповідь з новими юзерами
+        usersListener = ListenerService.shared.usersObserver(users: users, completion: { result in
+            switch result {
+            case .success(let users):
+                // обновляємо масив з юзерами
+                self.users = users
+                self.reloadData(with: nil)
+            case .failure(let error):
+                self.showAlert(with: "Error!", and: error.localizedDescription)
+            }
+        })
     }
     
     // вихід з акаунта

@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import SDWebImage
 
 class SetupProfileViewController: UIViewController {
     
@@ -39,6 +40,9 @@ class SetupProfileViewController: UIViewController {
         }
         
         // тут перевіримо чи є фото в юзера - також буде фото якщо він рейструється через гугл
+        if let photoURL = currentUser.photoURL {
+            fullImageView.circleImageView.sd_setImage(with: photoURL)
+        }
     }
         
     override func viewDidLoad() {

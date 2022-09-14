@@ -45,6 +45,25 @@ struct MUser: Hashable, Decodable {
         self.id = uid
     }
     
+    init?(document: QueryDocumentSnapshot) {
+        let data = document.data()
+        // пробуємо витягнути дані з документа
+        guard let username = data["username"] as? String,
+              let email = data["email"] as? String,
+              let avatarStringURL = data["avatarStringURL"] as? String,
+              let description = data["description"] as? String,
+              let sex = data["sex"] as? String,
+              let uid = data["uid"] as? String
+        else { return nil }
+        
+        self.username = username
+        self.email = email
+        self.avatarStringURL = avatarStringURL
+        self.description = description
+        self.sex = sex
+        self.id = uid
+    }
+    
     // перетворюємо дані в тип [String: Any]
     var representation: [String: Any] {
         var rep = ["username": username]
