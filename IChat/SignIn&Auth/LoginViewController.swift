@@ -59,9 +59,12 @@ class LoginViewController: UIViewController {
                     FirestoreService.shared.getUserData(user: user) { result in
                         switch result {
                         case .success(let muser):
+                            let mainTabBar = MainTabBarController(currentUser: muser)
+                            // роббимо його на повний екран
+                            mainTabBar.modalPresentationStyle = .fullScreen
                             // якщо користувач заповнив всі дані то відкриємо йому MainTabBarController
-                            self.present(MainTabBarController(), animated: true, completion: nil)
-                        case .failure(let error):
+                            self.present(mainTabBar, animated: true, completion: nil)
+                        case .failure(_):
                             self.present(SetupProfileViewController(currentUser: user), animated: true, completion: nil)
                         }
                     }

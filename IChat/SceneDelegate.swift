@@ -25,8 +25,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             FirestoreService.shared.getUserData(user: user) { result in
                 switch result {
                 case .success(let muser): // є вся інформація
-                    self.window?.rootViewController = MainTabBarController()
-                case .failure(let error): // немає всієї інформації
+                    let mainTabBar = MainTabBarController(currentUser: muser)
+                    // роббимо його на повний екран
+                    mainTabBar.modalPresentationStyle = .fullScreen
+                    self.window?.rootViewController = mainTabBar
+                case .failure(_): // немає всієї інформації
                     // якщо він пройшов не до кінця, то вертаємо екран рейстрації
                     self.window?.rootViewController = AuthViewController()
                 }
