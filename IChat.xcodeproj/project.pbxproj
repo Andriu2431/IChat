@@ -39,6 +39,8 @@
 		165B576328D0B50D0057062A /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B576228D0B50D0057062A /* FirestoreService.swift */; };
 		165B576528D0BB630057062A /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B576428D0BB630057062A /* UserError.swift */; };
 		165B576728D1E05B0057062A /* UIAplication + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B576628D1E05B0057062A /* UIAplication + Extension.swift */; };
+		165B576928D1F8330057062A /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B576828D1F8330057062A /* StorageService.swift */; };
+		165B576B28D1FC910057062A /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B576A28D1FC910057062A /* UIImage + Extension.swift */; };
 		16C4DECA28CB0FF400269A4B /* ButtonFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DEC928CB0FF400269A4B /* ButtonFormView.swift */; };
 		16C4DECC28CB13EA00269A4B /* StackView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DECB28CB13EA00269A4B /* StackView + Extension.swift */; };
 		16C4DECE28CB177B00269A4B /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DECD28CB177B00269A4B /* SignUpViewController.swift */; };
@@ -90,6 +92,8 @@
 		165B576228D0B50D0057062A /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		165B576428D0BB630057062A /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		165B576628D1E05B0057062A /* UIAplication + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAplication + Extension.swift"; sourceTree = "<group>"; };
+		165B576828D1F8330057062A /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		165B576A28D1FC910057062A /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
 		16C4DEC928CB0FF400269A4B /* ButtonFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonFormView.swift; sourceTree = "<group>"; };
 		16C4DECB28CB13EA00269A4B /* StackView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StackView + Extension.swift"; sourceTree = "<group>"; };
 		16C4DECD28CB177B00269A4B /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -191,6 +195,7 @@
 				165B574728CF38010057062A /* Models */,
 				165B575728D06CFD0057062A /* AuthService.swift */,
 				165B576228D0B50D0057062A /* FirestoreService.swift */,
+				165B576828D1F8330057062A /* StorageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -209,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				16E0034428C9C533008C8B3A /* UIButton + Extension.swift */,
+				165B576A28D1FC910057062A /* UIImage + Extension.swift */,
 				165B576628D1E05B0057062A /* UIAplication + Extension.swift */,
 				165B575028CF7F780057062A /* UIView + Extension.swift */,
 				16E0034628C9CA06008C8B3A /* UIFont + Extension.swift */,
@@ -441,12 +447,14 @@
 				16E0033128C9B7FB008C8B3A /* AppDelegate.swift in Sources */,
 				16E0034D28C9CEB4008C8B3A /* UIImageView + Extension.swift in Sources */,
 				165B575128CF7F780057062A /* UIView + Extension.swift in Sources */,
+				165B576928D1F8330057062A /* StorageService.swift in Sources */,
 				165B572528CB95070057062A /* SegmentedControl + Extension.swift in Sources */,
 				16E0034928C9CAF0008C8B3A /* UIColor + Extension.swift in Sources */,
 				165B574928CF48180057062A /* UserCell.swift in Sources */,
 				165B574B28CF49680057062A /* UIViewController + Extension.swift in Sources */,
 				165B573C28CF1DDA0057062A /* SelfConfiguringCell.swift in Sources */,
 				165B573A28CF1D200057062A /* WaitingChatCell.swift in Sources */,
+				165B576B28D1FC910057062A /* UIImage + Extension.swift in Sources */,
 				16E0033328C9B7FB008C8B3A /* SceneDelegate.swift in Sources */,
 				16E0034528C9C533008C8B3A /* UIButton + Extension.swift in Sources */,
 				165B572928CC99C00057062A /* ListViewController.swift in Sources */,

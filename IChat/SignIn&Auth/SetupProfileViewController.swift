@@ -47,6 +47,15 @@ class SetupProfileViewController: UIViewController {
         setupConstraints()
         
         goToChatsButton.addTarget(self, action: #selector(goToChatsButtonTapped), for: .touchUpInside)
+        fullImageView.plusButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
+    }
+    
+    // додавання фото юзеру при рейстрації
+    @objc private func plusButtonTapped() {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = .photoLibrary
+        present(imagePickerController, animated: true, completion: nil)
     }
     
     // відправка даних про користувача в Firestore - отримання результату та перехід на mainTabBarVC
@@ -54,7 +63,7 @@ class SetupProfileViewController: UIViewController {
         FirestoreService.shared.saveProfileWith(id: currentUser.uid,
                                                 email: currentUser.email!,
                                                 username: fullNameTextFild.text,
-                                                avatarImageString: "nil",
+                                                avatarImage: fullImageView.circleImageView.image,
                                                 description: aboutMeTextFild.text,
                                                 sex: sexSegmentedControl.titleForSegment(at: sexSegmentedControl.selectedSegmentIndex)) { result in
             switch result {
@@ -73,6 +82,17 @@ class SetupProfileViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: UIImagePickerControllerDelegate,  UINavigationControllerDelegate
+extension SetupProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    // метод який спрацьокує коли ми хочемо вибрати фото
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        picker.dismiss(animated: true, completion: nil)
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        fullImageView.circleImageView.image = image
     }
 }
 
