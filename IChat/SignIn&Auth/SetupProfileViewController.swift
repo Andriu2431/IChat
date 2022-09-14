@@ -32,6 +32,13 @@ class SetupProfileViewController: UIViewController {
     init(currentUser: User) {
         self.currentUser = currentUser
         super.init(nibName: nil, bundle: nil)
+        
+        // перевримо можливо дані про юзера вже є - будуть якщо він рейструється через гугл
+        if let username = currentUser.displayName {
+            fullNameTextFild.text = username
+        }
+        
+        // тут перевіримо чи є фото в юзера - також буде фото якщо він рейструється через гугл
     }
         
     override func viewDidLoad() {
