@@ -13,10 +13,10 @@ class ListViewController: UIViewController {
     var collectionView: UICollectionView!
     // dataSourse буде складатись з секції та інформації про item
     var dataSourse: UICollectionViewDiffableDataSource<Section, MChat>?
-    // дані декодовані з файлу activeChats для активних чатів
-    let activeChats = Bundle.main.decode([MChat].self, from: "activeChats.json")
-    // дані декодовані з файлу waitingChats для неактивних чатів
-    let waitingChats = Bundle.main.decode([MChat].self, from: "waitingChats.json")
+    // дані для активних чатів
+    let activeChats = [MChat]()
+    // дані очікуючих чатів
+    let waitingChats = [MChat]()
     
     // енум з секціями
     enum Section: Int, CaseIterable {

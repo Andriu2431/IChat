@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 // контроллер запиту на відправку повідомлення
 class ProfileViewController: UIViewController {
@@ -15,6 +16,21 @@ class ProfileViewController: UIViewController {
     let nameLabel = UILabel(text: "Peter Ben", font: .systemFont(ofSize: 20, weight: .light))
     let aboutMeLabel = UILabel(text: "You have the opportunity to chat with the best man in the world!", font: .systemFont(ofSize: 16, weight: .light))
     let myTextField = InsertableTextField()
+    
+    private let user: MUser
+    
+    // отримуємо юзера на якого тапнемо на екрані юзерів поблизу, та сетимо данні
+    init(user: MUser) {
+        self.user = user
+        self.nameLabel.text = user.username
+        self.aboutMeLabel.text = user.description
+        self.imageView.sd_setImage(with: URL(string: user.avatarStringURL))
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,8 +55,23 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    // кнопка для відправки повідомлень
     @objc func sendMessage() {
-        print(#function)
+        // перевірка на пустоту
+        guard let message = myTextField.text, message != "" else { return }
+        
+        // закриваємо екран та показуємо алерт
+        self.dismiss(animated: true) {
+            // створюємо очікуваний чат в firebase
+            FirestoreService.shared.createWaitingChat(message: message, receiver: self.user) { result in
+                switch result {
+                case .success():
+                    UIApplication.getTopViewController()?.showAlert(with: "Success!", and: "Message for \(self.user.username) send.")
+                case .failure(let error):
+                    UIApplication.getTopViewController()?.showAlert(with: "Error!", and: error.localizedDescription)
+                }
+            }
+        }
     }
 }
 
@@ -92,25 +123,25 @@ extension ProfileViewController {
 }
 
 
-// MARK: SwiftUI
-
-import SwiftUI
-
-struct ProfileVCProvider: PreviewProvider {
-    static var previews: some View {
-        ContainerView().edgesIgnoringSafeArea(.all)
-    }
-    
-    struct ContainerView: UIViewControllerRepresentable {
-        
-        let viewController = ProfileViewController()
-        
-        func makeUIViewController(context: Context) -> some UIViewController {
-            return viewController
-        }
-        
-        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-            
-        }
-    }
-}
+//// MARK: SwiftUI
+//
+//import SwiftUI
+//
+//struct ProfileVCProvider: PreviewProvider {
+//    static var previews: some View {
+//        ContainerView().edgesIgnoringSafeArea(.all)
+//    }
+//
+//    struct ContainerView: UIViewControllerRepresentable {
+//
+//        let viewController = ProfileViewController()
+//
+//        func makeUIViewController(context: Context) -> some UIViewController {
+//            return viewController
+//        }
+//
+//        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+//
+//        }
+//    }
+//}

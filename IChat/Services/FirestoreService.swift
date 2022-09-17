@@ -20,6 +20,8 @@ class FirestoreService {
     private var userReference: CollectionReference {
         return db.collection("users")
     }
+    
+    var currentUser: MUser!
 
     // метод буде перевіряти чи по індентифікатору юзера є вся його інформація, якщо так то вернемо його, ні то помилку
     func getUserData(user: User, completion: @escaping (Result<MUser, Error>) -> Void) {
@@ -32,6 +34,8 @@ class FirestoreService {
                     completion(.failure(UserError.cannotUnwrapToMUser))
                     return
                 }
+                // сетапим користувача
+                self.currentUser = muser
                 completion(.success(muser))
             } else {
                 completion(.failure(UserError.cannotGetUserInfo))
@@ -83,4 +87,37 @@ class FirestoreService {
             }
         } // StorageService
     } // saveProfileWith
+    
+    // метод буде створювати очікуваний чат в firestore
+    func createWaitingChat(message: String, receiver: MUser, completion: @escaping (Result<Void, Error>) -> Void) {
+        // силка на колекцію waitingChat
+        let referense = db.collection(["users", receiver.id, "waitingChats"].joined(separator: "/"))
+        // силка на колекцію messages
+        let messageRef = referense.document(self.currentUser.id).collection("messages")
+        
+        // повідомлення
+        let message = MMessage(user: currentUser, content: message)
+        // це є чат
+        let chat = MChat(friendUsername: currentUser.username,
+                         friendAvatarStringURL: currentUser.avatarStringURL,
+                         lastMessageContent: message.content,
+                         friendId: currentUser.id)
+        
+        // додаємо в waitingChat за назвою currentUser.id чат
+        referense.document(currentUser.id).setData(chat.representation) { error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            // якщо все успішно тоді добавляємо документ по силці messageRef
+            messageRef.addDocument(data: message.representation) { error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                completion(.success(Void()))
+            }
+        }
+    }
 }

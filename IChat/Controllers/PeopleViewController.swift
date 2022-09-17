@@ -99,7 +99,7 @@ class PeopleViewController: UIViewController {
         collectionView.register(SectionHeader.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: SectionHeader.reuseId)
-        
+        collectionView.delegate = self
         collectionView.register(UserCell.self, forCellWithReuseIdentifier: UserCell.reuseId)
     }
     
@@ -219,6 +219,19 @@ extension PeopleViewController: UISearchBarDelegate {
     // коли ми вписуємо щось в searchController
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         reloadData(with: searchText)
+    }
+}
+
+// MARK: UICollectionViewDelegate
+extension PeopleViewController: UICollectionViewDelegate {
+    // метод спацьовує коли ми нажимаємо на якийсь контейнер
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // шукаємо юзера на якого тапнули
+        guard let user = self.dataSourse.itemIdentifier(for: indexPath) else { return }
+        // передаємо юзера 
+        let profileVC = ProfileViewController(user: user)
+        // презентуємо екран з вже готовими даними про юзера якому хочемо надіслати повідомлення
+        present(profileVC, animated: true, completion: nil)
     }
 }
 
