@@ -26,6 +26,11 @@ class FirestoreService {
         return  db.collection(["users", currentUser.id, "waitingChats"].joined(separator: "/"))
     }
     
+    // добираємось до активних чатів юзера
+    private var activeChatsRef: CollectionReference {
+        return  db.collection(["users", currentUser.id, "activeChats"].joined(separator: "/"))
+    }
+    
     var currentUser: MUser!
 
     // метод буде перевіряти чи по індентифікатору юзера є вся його інформація, якщо так то вернемо його, ні то помилку
@@ -187,6 +192,58 @@ class FirestoreService {
                 messages.append(message)
             }
             completion(.success(messages))
+        }
+    }
+    
+    // метод буде міняти з очікуваного чату на активний
+    func changeToActive(chat: MChat, completion: @escaping (Result<Void, Error>) -> Void) {
+        // отримуємо messages з firestore
+        getWaitingChatMessages(chat: chat) { result in
+            switch result {
+            case .success(let messages):
+                // видаляємо очікуваний чат
+                self.deleteWaitingChat(chat: chat) { result in
+                    switch result {
+                    case .success():
+                        // створюємо активний чат
+                        self.createActiveChat(chat: chat, messages: messages) { result in
+                            switch result {
+                            case .success():
+                                completion(.success(Void()))
+                            case .failure(let error):
+                                completion(.failure(error))
+                            }
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    // метод буде створювати активний чат
+    private func createActiveChat(chat: MChat, messages: [MMessage], completion: @escaping (Result<Void, Error>) -> Void) {
+        let messageRef = activeChatsRef.document(chat.friendId).collection("messages")
+        // створюємо новий документ під назвою chat.friendId та передаємо туди дані chat.representation
+        activeChatsRef.document(chat.friendId).setData(chat.representation) { error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            // в колекцію messages додаємо повідомлення як нові документи
+            for message in messages {
+                messageRef.addDocument(data: message.representation) { error in
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    completion(.success(Void()))
+                }
+            }
         }
     }
 }

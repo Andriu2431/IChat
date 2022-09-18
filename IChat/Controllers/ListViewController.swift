@@ -13,9 +13,11 @@ class ListViewController: UIViewController {
     
     // слідкуємо за всіма очікуваними чатами по юзеру
     private var waitingChatListener: ListenerRegistration?
+    // слідкуємо за всіма активними чатами по юзеру
+    private var activeChatListener: ListenerRegistration?
     
     // дані для активних чатів
-    let activeChats = [MChat]()
+    var activeChats = [MChat]()
     // дані очікуючих чатів
     var waitingChats = [MChat]()
     
@@ -52,6 +54,7 @@ class ListViewController: UIViewController {
     
     deinit {
         waitingChatListener?.remove()
+        activeChatListener?.remove()
     }
     
     override func viewDidLoad() {
@@ -63,7 +66,7 @@ class ListViewController: UIViewController {
         createDataSourse()
         reloadData()
         
-        // ініціалізуємо наглядача
+        // ініціалізуємо наглядача очікуваних чатів
         waitingChatListener = ListenerService.shared.waitingChatsObserver(chats: waitingChats, completion: { result in
             switch result {
             case .success(let chats):
@@ -76,6 +79,17 @@ class ListViewController: UIViewController {
                     self.present(chatRequestVC, animated: true, completion: nil)
                 }
                 self.waitingChats = chats
+                self.reloadData()
+            case .failure(let error):
+                self.showAlert(with: "Error!", and: error.localizedDescription)
+            }
+        })
+        
+        // ініціалізуємо наглядача активних чатів
+        waitingChatListener = ListenerService.shared.activeChatsObserver(chats: activeChats, completion: { result in
+            switch result {
+            case .success(let chats):
+                self.activeChats = chats
                 self.reloadData()
             case .failure(let error):
                 self.showAlert(with: "Error!", and: error.localizedDescription)
@@ -278,7 +292,15 @@ extension ListViewController: WaitingChatsNavigation {
     
     // приймаємо чат 
     func chatToActive(chat: MChat) {
-        print(#function)
+        // створюємо активний чат
+        FirestoreService.shared.changeToActive(chat: chat) { result in
+            switch result {
+            case .success():
+                self.showAlert(with: "Success!", and: "Pleasant communication with \(chat.friendUsername).")
+            case .failure(let error):
+                self.showAlert(with: "Error!", and: error.localizedDescription)
+            }
+        }
     }
 }
 
