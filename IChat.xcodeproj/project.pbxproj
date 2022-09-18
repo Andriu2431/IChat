@@ -43,6 +43,7 @@
 		165B576B28D1FC910057062A /* UIImage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B576A28D1FC910057062A /* UIImage + Extension.swift */; };
 		165B576D28D2241E0057062A /* ListenerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B576C28D2241E0057062A /* ListenerService.swift */; };
 		16BF492528D5DFE100BECFE0 /* MMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF492428D5DFE100BECFE0 /* MMessage.swift */; };
+		16BF492728D603BB00BECFE0 /* WaitingChatsNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BF492628D603BB00BECFE0 /* WaitingChatsNavigation.swift */; };
 		16C4DECA28CB0FF400269A4B /* ButtonFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DEC928CB0FF400269A4B /* ButtonFormView.swift */; };
 		16C4DECC28CB13EA00269A4B /* StackView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DECB28CB13EA00269A4B /* StackView + Extension.swift */; };
 		16C4DECE28CB177B00269A4B /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C4DECD28CB177B00269A4B /* SignUpViewController.swift */; };
@@ -98,6 +99,7 @@
 		165B576A28D1FC910057062A /* UIImage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + Extension.swift"; sourceTree = "<group>"; };
 		165B576C28D2241E0057062A /* ListenerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerService.swift; sourceTree = "<group>"; };
 		16BF492428D5DFE100BECFE0 /* MMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MMessage.swift; sourceTree = "<group>"; };
+		16BF492628D603BB00BECFE0 /* WaitingChatsNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingChatsNavigation.swift; sourceTree = "<group>"; };
 		16C4DEC928CB0FF400269A4B /* ButtonFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonFormView.swift; sourceTree = "<group>"; };
 		16C4DECB28CB13EA00269A4B /* StackView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StackView + Extension.swift"; sourceTree = "<group>"; };
 		16C4DECD28CB177B00269A4B /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			children = (
 				165B573B28CF1DDA0057062A /* SelfConfiguringCell.swift */,
 				165B576028D0A1AC0057062A /* AuthNavigationDelegate.swift */,
+				16BF492628D603BB00BECFE0 /* WaitingChatsNavigation.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -468,6 +471,7 @@
 				165B572928CC99C00057062A /* ListViewController.swift in Sources */,
 				165B575828D06CFD0057062A /* AuthService.swift in Sources */,
 				16C4DED228CB410800269A4B /* LoginViewController.swift in Sources */,
+				16BF492728D603BB00BECFE0 /* WaitingChatsNavigation.swift in Sources */,
 				16C4DECC28CB13EA00269A4B /* StackView + Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

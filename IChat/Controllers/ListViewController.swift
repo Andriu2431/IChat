@@ -6,17 +6,18 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 // це екран коли юзер уже увійшов - екран де всі чати покзані
 class ListViewController: UIViewController {
     
-    var collectionView: UICollectionView!
-    // dataSourse буде складатись з секції та інформації про item
-    var dataSourse: UICollectionViewDiffableDataSource<Section, MChat>?
+    // слідкуємо за всіма очікуваними чатами по юзеру
+    private var waitingChatListener: ListenerRegistration?
+    
     // дані для активних чатів
     let activeChats = [MChat]()
     // дані очікуючих чатів
-    let waitingChats = [MChat]()
+    var waitingChats = [MChat]()
     
     // енум з секціями
     enum Section: Int, CaseIterable {
@@ -33,6 +34,10 @@ class ListViewController: UIViewController {
         }
     }
     
+    var collectionView: UICollectionView!
+    // dataSourse буде складатись з секції та інформації про item
+    var dataSourse: UICollectionViewDiffableDataSource<Section, MChat>?
+    
     private let currentUser: MUser
     
     init(currentUser: MUser) {
@@ -45,6 +50,10 @@ class ListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        waitingChatListener?.remove()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -53,6 +62,25 @@ class ListViewController: UIViewController {
         
         createDataSourse()
         reloadData()
+        
+        // ініціалізуємо наглядача
+        waitingChatListener = ListenerService.shared.waitingChatsObserver(chats: waitingChats, completion: { result in
+            switch result {
+            case .success(let chats):
+                // якщо є новий користувач
+                if self.waitingChats != [], self.waitingChats.count <= chats.count {
+                    // передаємо його в контроллер та сетимо дані
+                    let chatRequestVC = ChatRequestViewController(chat: chats.last!)
+                    chatRequestVC.delegate = self
+                    // презентуємо цей контроллер
+                    self.present(chatRequestVC, animated: true, completion: nil)
+                }
+                self.waitingChats = chats
+                self.reloadData()
+            case .failure(let error):
+                self.showAlert(with: "Error!", and: error.localizedDescription)
+            }
+        })
     }
     
     // метод створює search bar
@@ -82,6 +110,7 @@ class ListViewController: UIViewController {
         
         collectionView.register(ActiveChatCell.self, forCellWithReuseIdentifier: ActiveChatCell.reuseId)
         collectionView.register(WaitingChatCell.self, forCellWithReuseIdentifier: WaitingChatCell.reuseId)
+        collectionView.delegate = self
     }
     
     // заповнює данними dataSourse
@@ -210,6 +239,46 @@ extension ListViewController {
                                                                         elementKind: UICollectionView.elementKindSectionHeader,
                                                                         alignment: .top)
         return sectionHeader
+    }
+}
+
+// MARK: UICollectionViewDelegate
+extension ListViewController: UICollectionViewDelegate {
+    // метод спацьовує коли ми нажимаємо на якийсь контейнер
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // шукаємо чат на який тапнули
+        guard let chat = self.dataSourse?.itemIdentifier(for: indexPath) else { return }
+        guard let section = Section(rawValue:  indexPath.section) else { return }
+        
+        // в залежності від секції будемо робити дії
+        switch section {
+        case .waitingChats:
+            let chatRequestVC = ChatRequestViewController(chat: chat)
+            chatRequestVC.delegate = self
+            self.present(chatRequestVC, animated: true, completion: nil)
+        case .activeChats:
+            print(indexPath)
+        }
+    }
+}
+
+// MARK: WaitingChatsNavigation
+extension ListViewController: WaitingChatsNavigation {
+    // видаляємо чат очікуваний
+    func removeWaitingChat(chat: MChat) {
+        FirestoreService.shared.deleteWaitingChat(chat: chat) { result in
+            switch result {
+            case .success():
+                self.showAlert(with: "Success!", and: "Chat with \(chat.friendUsername) deleted.")
+            case .failure(let error):
+                self.showAlert(with: "Error!", and: error.localizedDescription)
+            }
+        }
+    }
+    
+    // приймаємо чат 
+    func chatToActive(chat: MChat) {
+        print(#function)
     }
 }
 

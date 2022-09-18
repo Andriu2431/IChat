@@ -21,6 +21,11 @@ class FirestoreService {
         return db.collection("users")
     }
     
+    // добираємось до очікуваних чатів юзера
+    private var waitingChatsRef: CollectionReference {
+        return  db.collection(["users", currentUser.id, "waitingChats"].joined(separator: "/"))
+    }
+    
     var currentUser: MUser!
 
     // метод буде перевіряти чи по індентифікатору юзера є вся його інформація, якщо так то вернемо його, ні то помилку
@@ -118,6 +123,70 @@ class FirestoreService {
                 }
                 completion(.success(Void()))
             }
+        }
+    }
+
+    // метод буде видаляти очікуваний чат з firestore
+    func deleteWaitingChat(chat: MChat, completion: @escaping (Result<Void, Error>) -> Void) {
+        // беремо чат людини який будемо видаляти
+        waitingChatsRef.document(chat.friendId).delete { error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            self.deleteMessages(chat: chat, completion: completion)
+        }
+    }
+
+    // метод видаляє вже messages з firestore
+    private func deleteMessages(chat: MChat, completion: @escaping (Result<Void, Error>) -> Void) {
+        // силка на колекцію messages
+        let reference = waitingChatsRef.document(chat.friendId).collection("messages")
+
+        getWaitingChatMessages(chat: chat) { result in
+            switch result {
+            case .success(let messages):
+                // проходимось по всіх повідомленнях та видаляємо їх
+                for message in messages {
+                    // дістаємо id message
+                    guard let documentId = message.id else { return }
+                    // добираємось до повідомлення по documentId
+                    let messageRef = reference.document(documentId)
+                    // видаляємо це повідомлення
+                    messageRef.delete { error in
+                        if let error = error {
+                            completion(.failure(error))
+                            return
+                        }
+                        completion(.success(Void()))
+                    }
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    // метод дістає messages з firestore
+    private func getWaitingChatMessages(chat: MChat, completion: @escaping (Result<[MMessage], Error>) -> Void) {
+        // силка на колекцію messages
+        let reference = waitingChatsRef.document(chat.friendId).collection("messages")
+        // масив messages
+        var messages = [MMessage]()
+        // дістаємо документи з неї
+        reference.getDocuments { querySnapshot, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            // проходимось по кожному та зтворюємо типу MMessage
+            for document in querySnapshot!.documents {
+                // створюємо message
+                guard let message = MMessage(document: document) else { return }
+                messages.append(message)
+            }
+            completion(.success(messages))
         }
     }
 }
