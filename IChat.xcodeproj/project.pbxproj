@@ -59,6 +59,7 @@
 		16E0034928C9CAF0008C8B3A /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0034828C9CAF0008C8B3A /* UIColor + Extension.swift */; };
 		16E0034B28C9CCDD008C8B3A /* Label + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0034A28C9CCDD008C8B3A /* Label + Extension.swift */; };
 		16E0034D28C9CEB4008C8B3A /* UIImageView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E0034C28C9CEB4008C8B3A /* UIImageView + Extension.swift */; };
+		16FA040628D746580032D2F2 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FA040528D746580032D2F2 /* ChatsViewController.swift */; };
 		9E8D10E75F4BBFBCCC054348 /* Pods_IChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D5A6AC642A4DCA649907A15 /* Pods_IChat.framework */; };
 /* End PBXBuildFile section */
 
@@ -117,6 +118,7 @@
 		16E0034828C9CAF0008C8B3A /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		16E0034A28C9CCDD008C8B3A /* Label + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Label + Extension.swift"; sourceTree = "<group>"; };
 		16E0034C28C9CEB4008C8B3A /* UIImageView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView + Extension.swift"; sourceTree = "<group>"; };
+		16FA040528D746580032D2F2 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		39B61502895EF818B57C7D2C /* Pods-IChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IChat.debug.xcconfig"; path = "Target Support Files/Pods-IChat/Pods-IChat.debug.xcconfig"; sourceTree = "<group>"; };
 		5958AF4307D4CEC74A13E02D /* Pods-IChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IChat.release.xcconfig"; path = "Target Support Files/Pods-IChat/Pods-IChat.release.xcconfig"; sourceTree = "<group>"; };
 		8D5A6AC642A4DCA649907A15 /* Pods_IChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +155,7 @@
 				165B574C28CF66CC0057062A /* ProfileViewController.swift */,
 				165B572C28CC9AAD0057062A /* PeopleViewController.swift */,
 				165B575228CF87830057062A /* ChatRequestViewController.swift */,
+				16FA040528D746580032D2F2 /* ChatsViewController.swift */,
 				165B573428CD11350057062A /* Cell */,
 				165B574028CF34FF0057062A /* Header */,
 			);
@@ -456,6 +459,7 @@
 				165B576528D0BB630057062A /* UserError.swift in Sources */,
 				16E0033128C9B7FB008C8B3A /* AppDelegate.swift in Sources */,
 				16E0034D28C9CEB4008C8B3A /* UIImageView + Extension.swift in Sources */,
+				16FA040628D746580032D2F2 /* ChatsViewController.swift in Sources */,
 				165B575128CF7F780057062A /* UIView + Extension.swift in Sources */,
 				165B576928D1F8330057062A /* StorageService.swift in Sources */,
 				165B572528CB95070057062A /* SegmentedControl + Extension.swift in Sources */,
