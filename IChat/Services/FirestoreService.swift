@@ -246,4 +246,40 @@ class FirestoreService {
             }
         }
     }
+    
+    // відправка повідомлення в firestore
+    func sendMessage(chat: MChat, message: MMessage, completion: @escaping (Result<Void, Error>) -> Void) {
+        // активний чат в мого друга зімною
+        let friendRef = userReference.document(chat.friendId).collection("activeChats").document(currentUser.id)
+        // силка на повідомлення друга
+        let friendMessageRef = friendRef.collection("messages")
+        // силка на мої повідомлення
+        let myMessageRef = userReference.document(currentUser.id).collection("activeChats").document(chat.friendId).collection("messages")
+        
+        let chatForFriend = MChat(friendUsername: currentUser.username,
+                                  friendAvatarStringURL: currentUser.avatarStringURL,
+                                  lastMessageContent: message.content,
+                                  friendId: currentUser.id)
+        friendRef.setData(chatForFriend.representation) { error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            // добавляємо другу нове повідомлення
+            friendMessageRef.addDocument(data: message.representation) { error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                // добавляємо нове повідомлення собі
+                myMessageRef.addDocument(data: message.representation) { error in
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    completion(.success(Void()))
+                }
+            }
+        }
+    }
 }

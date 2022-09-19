@@ -123,7 +123,7 @@ class PeopleViewController: UIViewController {
             user.contains(filter: searchText)
         }
         // слідкує за змінами
-        var snapshot = NSDiffableDataSourceSnapshot<Section,MUser>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, MUser>()
         // додаємо секцію
         snapshot.appendSections([.users])
         // передаємо дані в секії
