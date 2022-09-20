@@ -34,6 +34,7 @@ class ChatRequestViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         view.backgroundColor = .mainWhite()
         
         constomizeElements()

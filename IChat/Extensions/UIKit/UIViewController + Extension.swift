@@ -17,3 +17,16 @@ extension UIViewController {
         return cell
     }
 }
+
+extension UIViewController {
+    // метод скриває клавіатурур по тапу
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}

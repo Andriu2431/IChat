@@ -44,11 +44,29 @@ class LoginViewController: UIViewController {
         googleButton.customizeGoogleButton()
         
         view.backgroundColor = .white
+        self.hideKeyboardWhenTappedAround()
         setupConstraints()
         
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         googleButton.addTarget(self, action: #selector(googleLoginButtonTapped), for: .touchUpInside)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
     }
     
     // авторизація користувача
@@ -151,13 +169,17 @@ extension LoginViewController {
         view.addSubview(bottomStackView)
         
         // constraints
-        NSLayoutConstraint.activate([
-            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 160),
-            welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
+        if view.frame.height < 700 {
+            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60).isActive = true
+        } else {
+            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 160).isActive = true
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
+        }
+        
+        welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 100),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
         ])

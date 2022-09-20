@@ -108,7 +108,12 @@ extension AuthViewController {
         logoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 160).isActive = true
         logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        stackView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 160).isActive = true
+        if view.frame.height < 700 {
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
+        } else {
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130).isActive = true
+        }
+        
         stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
         stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
     }

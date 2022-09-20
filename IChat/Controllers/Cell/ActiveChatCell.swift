@@ -45,12 +45,9 @@ extension ActiveChatCell {
     private func setupConstraints() {
         // translatesAutoresizingMaskIntoConstraints
         friendImageView.translatesAutoresizingMaskIntoConstraints = false
-        gradientView.translatesAutoresizingMaskIntoConstraints = false
         friendName.translatesAutoresizingMaskIntoConstraints = false
         lastMassege.translatesAutoresizingMaskIntoConstraints = false
-        
-        friendImageView.backgroundColor = .systemYellow
-        gradientView.backgroundColor = .orange
+        gradientView.translatesAutoresizingMaskIntoConstraints = false
         
         // add view
         addSubview(friendImageView)

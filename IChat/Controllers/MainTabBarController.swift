@@ -19,6 +19,8 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.hideKeyboardWhenTappedAround()
+        
         // чати
         let listViewController = ListViewController(currentUser: currentUser)
         // люди

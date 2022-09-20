@@ -48,10 +48,28 @@ class SetupProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        self.hideKeyboardWhenTappedAround()
         setupConstraints()
         
         goToChatsButton.addTarget(self, action: #selector(goToChatsButtonTapped), for: .touchUpInside)
         fullImageView.plusButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
     }
     
     // додавання фото юзеру при рейстрації
@@ -126,43 +144,47 @@ extension SetupProfileViewController {
         view.addSubview(stackView)
         
         // constraints
-        NSLayoutConstraint.activate([
-            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 160),
-            welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
+        if view.frame.height < 700 {
+            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+            stackView.topAnchor.constraint(equalTo: fullImageView.bottomAnchor, constant: 20).isActive = true
+        } else {
+            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 160).isActive = true
+            stackView.topAnchor.constraint(equalTo: fullImageView.bottomAnchor, constant: 40).isActive = true
+        }
+        
+        welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         NSLayoutConstraint.activate([
-            fullImageView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 40),
+            fullImageView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20),
             fullImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: fullImageView.bottomAnchor, constant: 40),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
         ])
     }
 }
 
-// MARK: SwiftUI
-
-import SwiftUI
-
-struct SetupProfileVCProvider: PreviewProvider {
-    static var previews: some View {
-        ContainerView().edgesIgnoringSafeArea(.all)
-    }
-    
-    struct ContainerView: UIViewControllerRepresentable {
-        
-        let viewController = SetupProfileViewController(currentUser: Auth.auth().currentUser!)
-        
-        func makeUIViewController(context: Context) -> some UIViewController {
-            return viewController
-        }
-        
-        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-            
-        }
-    }
-}
+//// MARK: SwiftUI
+//
+//import SwiftUI
+//
+//struct SetupProfileVCProvider: PreviewProvider {
+//    static var previews: some View {
+//        ContainerView().edgesIgnoringSafeArea(.all)
+//    }
+//
+//    struct ContainerView: UIViewControllerRepresentable {
+//
+//        let viewController = SetupProfileViewController(currentUser: Auth.auth().currentUser!)
+//
+//        func makeUIViewController(context: Context) -> some UIViewController {
+//            return viewController
+//        }
+//
+//        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+//
+//        }
+//    }
+//}

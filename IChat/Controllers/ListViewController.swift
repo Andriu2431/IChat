@@ -60,6 +60,7 @@ class ListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.backButtonTitle = "Back"
+        self.hideKeyboardWhenTappedAround()
         
         setupCollectionView()
         setupSearchBar()
