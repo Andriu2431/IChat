@@ -88,10 +88,11 @@ class ListViewController: UIViewController {
         })
         
         // ініціалізуємо наглядача активних чатів
-        waitingChatListener = ListenerService.shared.activeChatsObserver(chats: activeChats, completion: { result in
+        activeChatListener = ListenerService.shared.activeChatsObserver(chats: activeChats, completion: { result in
             switch result {
             case .success(let chats):
                 self.activeChats = chats
+                self.createDataSourse()
                 self.reloadData()
             case .failure(let error):
                 self.showAlert(with: "Error!", and: error.localizedDescription)
